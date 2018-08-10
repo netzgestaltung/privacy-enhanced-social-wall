@@ -1,10 +1,25 @@
+<?php
+
+function pesf_dir_url($file){
+  $path = str_replace('\\', '/', $file);
+  $path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $path);
+  $path = '//' . $_SERVER['HTTP_HOST'] . '/' . $path;
+  
+  return dirname($path);
+}
+
+define('PESF_DIR', __DIR__);
+define('PESF_URL', pesf_dir_url(__FILE__));
+define('PESF_INCLUDE_DIR', __DIR__ . 'includes/');
+define('PESF_INCLUDE_URL', pesf_dir_url(__FILE__) . 'includes/'); 
 
 // require_once PESF_INCLUDE_DIR . 'image-cache/ImageCache.php';
-require_once 'includes/class-social-post.php';
-require_once 'includes/class-local-social-image.php';
+require_once PESF_INCLUDE_DIR . 'class-social-post.php';
+require_once PESF_INCLUDE_DIR . 'class-local-social-image.php';
 
 // Filter content for Twitter usernames and hashtags
 // @see: https://stackoverflow.com/a/37853639/1165121
+// needs additions to work with facebook and instagram
 function pesf_social_content($content){
   $content = apply_filters('the_content', $content);
   
@@ -88,3 +103,5 @@ function get_pesf_wall(){
 function pesf_wall(){
   echo get_pesf_wall();
 }
+
+?>

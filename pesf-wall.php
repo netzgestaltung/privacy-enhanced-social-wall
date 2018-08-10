@@ -7,13 +7,23 @@ function pesf_dir_url($file){
   
   return dirname($path);
 }
-
 define('PESF_DIR', __DIR__);
 define('PESF_URL', pesf_dir_url(__FILE__));
 define('PESF_INCLUDE_DIR', __DIR__ . 'includes/');
 define('PESF_INCLUDE_URL', pesf_dir_url(__FILE__) . 'includes/'); 
 
-// require_once PESF_INCLUDE_DIR . 'image-cache/ImageCache.php';
+// Options set
+$pesf_options = array(
+  'services' => array(
+    'facebook' => false,
+    'twitter' => true, // only one ready yet
+    'instagram' => false,
+    'pinterest' => false,
+    'youtube' => false,
+  ),
+);
+
+// Load necessary classes
 require_once PESF_INCLUDE_DIR . 'class-social-post.php';
 require_once PESF_INCLUDE_DIR . 'class-local-social-image.php';
 
@@ -69,7 +79,7 @@ function get_pesf_wall(){
   $eol = "\r\n";
   
   foreach ( $services as $service_name => $service_data ) {
-    if ( get_option('pesf_' . $service_data['slug'] . '_enable') == 'y' ) {
+    if ( $pesf_options['services'][$service_data['slug']] ) {
       include PESF_INCLUDE_DIR . '/services/' . $service_data['slug'] . '/' . $service_data['slug'] . '.php';
 
       foreach ( $service_raw as $service_post ) {

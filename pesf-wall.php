@@ -91,7 +91,7 @@ function get_pesf_wall(){
         $wall .= '<h3 class="wall-title">' . $service_result->name . '</h3>' . $eol;
       }
       if ( isset($service_result->text) ) {
-        $wall .= '<div class="wall-content">' .  apply_filters('social_content', $service_result->text) . '</div>' . $eol;
+        $wall .= '<div class="wall-content">' .  pesf_social_content($service_result->text) . '</div>' . $eol;
       }
       $wall .= '</div>' . $eol;
     }
